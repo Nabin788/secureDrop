@@ -6,6 +6,9 @@ const adminRoutes = require("./routes/adminRoutes.js");
 const authRoutes = require("./routes/authRoutes.js");
 const feedbackRoutes = require("./routes/feedbackRoutes.js");
 
+// import database file
+const database = require("./database/dbConnect.js");
+
 // create an Instance of express application
 const app = express();
 
@@ -18,6 +21,9 @@ app.use("/auth", authRoutes);
 app.use("./feedback", feedbackRoutes);
 
 // Start the server and have it listen on port 1010 for incoming request
-app.listen(port, () => {
-    console.log(`Server running on: http://localhost:${port}`);
-});
+database().then(() => {
+    console.log("Database connected sucessfully.");
+    app.listen(port, () => {
+        console.log(`Server running on: http://localhost:${port}`);
+    });
+})
