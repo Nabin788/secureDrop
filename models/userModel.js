@@ -22,9 +22,6 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-// Create mongoose model name User using userSchema 
-const User = new mongoose.model("User", userSchema);
-
 // Pre-save middleware to hash password before save in database
 userSchema.pre("save", async function (next) {
     // only modified and new password hash
@@ -44,6 +41,9 @@ userSchema.pre("save", async function (next) {
 userSchema.methods.comparePassword = function (inputPassword){
     return bcrypt.compare(inputPassword, this.password);
 };
+
+// Create mongoose model name User using userSchema 
+const User = new mongoose.model("User", userSchema);
 
 // export User model
 module.exports = User;
