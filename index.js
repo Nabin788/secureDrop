@@ -21,7 +21,7 @@ app.use(express.json());
 // define admin, auth and feedback  routes
 app.use("/admin", adminRoutes);
 app.use("/auth", authRoutes);
-app.use("./feedback", feedbackRoutes);
+app.use("/feedback", feedbackRoutes);
 
 // Start the server and have it listen on port 1010 for incoming request
 database().then(() => {
