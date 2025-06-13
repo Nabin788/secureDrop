@@ -31,21 +31,5 @@ const feedbackStatus = async (req, res) => {
     }
 }
 
-const feedbackDelete = async (req,res) => {
-    try {
-        const { id } = req.body;
-        if(!id){
-            return res.status(401).json({message: "user not found"});
-        }
 
-        const userID = await feedbackModels.findByIdAndDelete(id);
-        if(!userID){
-            return res.status(401).json({message: "User not found"});
-        }
-        res.status(200).json({messsage: "Feedback deleted successfully"});
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json({error: error.message});
-    }
-}
-module.exports = { feedbackUser, feedbackStatus, feedbackDelete };
+module.exports = { feedbackUser, feedbackStatus};
