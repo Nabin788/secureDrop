@@ -18,14 +18,14 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ["user", "admin"], // only user and admin are valid value
-        default: "User"
+        default: "user"
     }
 });
 
 // Pre-save middleware to hash password before save in database
 userSchema.pre("save", async function (next) {
     // only modified and new password hash
-    if (!this.password("password")) {
+    if (!this.isModified("password")) {
         return next();
     }
     try {
