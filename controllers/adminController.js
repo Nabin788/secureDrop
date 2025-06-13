@@ -1,11 +1,10 @@
 const feedbackModel = require("../models/feedbackModel.js");
 
-
 // get all feedback with user email
 const getFeedback = async (req, res) => {
-    const feedbacks = await feedbackMpdel.find().populate("userId", "email");
+    const feedbacks = await feedbackModel.find().populate("userId", "email");
     try {
-        const decrypt = await feedbacks.map((f) => ({
+        const decrypt = feedbacks.map((f) => ({
             id: f._id,
             userEmail: f.userId.email,
             text: f.text,
@@ -24,9 +23,10 @@ const getFeedback = async (req, res) => {
 // Respond to feed 
 const feedbackRespond  = async (req,res) => {
     try {
-        const { id, response } = req.body;
+        const { id } = req.params;
+        const { response } = req.body;
 
-        if(!text || !id){
+        if(!response || !id){
             return res.status(401).send("data not find.");
         }
 
@@ -40,7 +40,7 @@ const feedbackRespond  = async (req,res) => {
         res.send("Respond send");
     } catch (error) {
         console.error(error.message);
-        res.staus(500).json({message: "can not respond feedback: ", error: error.message});
+        res.status(500).json({message: "can not respond feedback: ", error: error.message});
     }
 }
 
