@@ -12,8 +12,11 @@ const database = require("./database/dbConnect.js");
 // create an Instance of express application
 const app = express();
 
+
 // creating server port
 const port = 1010;
+
+app.use(express.json());
 
 // define admin, auth and feedback  routes
 app.use("/admin", adminRoutes);
