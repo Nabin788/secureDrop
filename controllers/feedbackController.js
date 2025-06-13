@@ -21,14 +21,14 @@ const feedbackUser = async (req, res) => {
     }
 }
 
-const feedbackStatus = async (req,res) => {
+const feedbackStatus = async (req, res) => {
     try {
-        const feedStatus = await feedbackModels({userId: req.user._id}).select("text");
+        const feedStatus = await feedbackModels({ userId: req.user._id }).select("text");
         res.json(feedStatus);
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({error: error.message});
+        res.status(500).json({ error: error.message });
     }
 }
 
-module.exports = {feedbackUser, feedbackStatus};
+module.exports = { feedbackUser, feedbackStatus };
