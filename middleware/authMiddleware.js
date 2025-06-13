@@ -2,8 +2,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const authMiddleware = async (req, res, next) => {
-    const bearerToken = req.headers["authorization"][1];
-    const token = bearerToken.split(" ");
+    const token = req.headers["authorization"];
 
     if (!token) {
         return res.status(401).json({ message: "Access denied, no token" });
@@ -12,8 +11,10 @@ const authMiddleware = async (req, res, next) => {
     try {
         const verifiedUser = jwt.verify(token, process.env.SECRETKEY);
         if (!verifiedUser) {
-            res.status(200).json({ message: "Invalid token" });
+            res.status(401).json({ message: "Invalid token" });
         }
+
+        req.user = verifiedUser;
         next();
 
     } catch (error) {
