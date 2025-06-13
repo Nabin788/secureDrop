@@ -3,6 +3,7 @@ const feedbackModels = require("../models/feedbackModel.js");
 const feedbackUser = async (req, res) => {
     try {
         const { text } = req.body;
+        
         if (!text) {
             return res.status(401).send("Please Insert text.");
         }
