@@ -73,7 +73,7 @@ const forgetPassword = async (req, res) => {
 
         if(password !== confirmPassword) return res.status(401).json({message: "Passowrd and confirm password not match "});
 
-        const userEmail = await userModels.findOne(email);
+        const userEmail = await userModels.findOne({email});
         if(!userEmail) return res.status(404).json({message: "Invalid user."});
 
         const changePassword = userModels({
