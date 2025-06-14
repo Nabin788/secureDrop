@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 const dbConnect = async (req,res) => {
     try {
-    await mongoose.connect("mongodb+srv://nabin:whathell@securedrop.abokdmb.mongodb.net/?retryWrites=true&w=majority&appName=secureDrop");
+    await mongoose.connect(process.env.DATABASE);
 
     } catch (error) {
         console.error("Something went wrong",error.message);
