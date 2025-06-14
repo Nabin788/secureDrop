@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const userModels = require("../models/userModel.js");
+const mail = require("../nodemailer/config.js");
 
 function createToken(user) {
     return jwt.sign({ _id: user._id }, process.env.SECRETKEY, { expiresIn: "1h" });
@@ -55,12 +56,34 @@ const loginUser = async (req, res) => {
         }
 
         const generateToken = createToken(users);
-        res.status(200).json({message: "User login sucessfully.", token: generateToken });
+        res.status(200).json({ message: "User login sucessfully.", token: generateToken });
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({message: "server error", error: error.message});
+        res.status(500).json({ message: "server error", error: error.message });
     }
 
 }
 
-module.exports = { registerUser, loginUser }
+const forgetPassword = async (req, res) => {
+    try {
+        const { email, password, confirmPassword } = req.body;
+        if (!email || !password || !confirmPassword) {
+            return res.status(401).json({message: "Filed are required to fill."});
+        }
+
+        if(password !== confirmPassword) return res.status(401).json({message: "Passowrd and confirm password not match "});
+
+        const userEmail = await userModels.findOne(email);
+        if(!userEmail) return res.status(404).json({message: "Invalid user."});
+
+        const changePassword = userModels({
+            password
+        });
+
+        res.status(201).send({message: "Password Change successfull.", changePassword});
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: "server error", error: error.message});
+    }
+}
+module.exports = { registerUser, loginUser, forgetPassword }

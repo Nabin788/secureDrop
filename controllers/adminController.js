@@ -46,12 +46,12 @@ const feedbackRespond  = async (req,res) => {
 
 const feedbackDelete = async (req,res) => {
     try {
-        const { id } = req.body;
+        const { id } = req.params;
         if(!id){
             return res.status(401).json({message: "user not found"});
         }
 
-        const userID = await feedbackModels.findByIdAndDelete(id);
+        const userID = await feedbackModel.findByIdAndDelete(id);
         if(!userID){
             return res.status(401).json({message: "User not found"});
         }
